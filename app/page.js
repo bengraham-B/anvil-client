@@ -1,21 +1,11 @@
+"use client"
 import React from 'react'
+import Link from 'next/link'
 
-//^ Importing Compoents
-import Home from './home/page'
-
-//& Importing functions
-import { apiTest } from './functions/api'
-
-apiTest("")
-apiTest("/test")
-apiTest("/insert")
-
-
-export default function page() {
-	return (
-		<div>
-			
-			<Home/>
-		</div>
-	)
+export default function Home() {
+  return (
+    <div>
+        <Link href="/transactions">Insert Transaction</Link>
+    </div>
+  )
 }
