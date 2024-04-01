@@ -8,17 +8,18 @@ export default function Insert_trans() {
 
     const submitTransaction = async () => {
         console.log(process.env.REACT_APP_SERVER_URL)
-        const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/insert`, {
-            method: "POST",
-            headers: {
-                'Content-Type': "application/json"
-            },
-            body: JSON.stringify({
-                details: "Test",
-                amount: 69,
-                category: "MTG",
-                date: ""
-            })
+        const response = await fetch(`http://127.0.0.1:5000/insert`, {
+            method: "GET"
+            // method: "POST",
+            // headers: {
+            //     'Content-Type': "application/json"
+            // },
+            // body: JSON.stringify({
+            //     details: "Test",
+            //     amount: 69,
+            //     category: "MTG",
+            //     class: "debit"
+            // })
         })
         const data = await response.json()
 
