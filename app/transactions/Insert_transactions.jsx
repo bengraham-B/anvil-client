@@ -3,6 +3,9 @@ import React, { useState } from 'react'
 import dotenv from 'dotenv';
 dotenv.config();
 
+//^ Components
+import Transactions from './Transactions';
+
 
 export default function Insert_trans() {
 
@@ -15,17 +18,18 @@ export default function Insert_trans() {
     const submitTransaction = async () => {
         console.log(process.env.REACT_APP_SERVER_URL)
         const response = await fetch(`http://127.0.0.1:5000/insert`, {
-            method: "GET"
-            // method: "POST",
-            // headers: {
-            //     'Content-Type': "application/json"
-            // },
-            // body: JSON.stringify({
-            //     details: details,
-            //     amount: amount,
-            //     category: category,
-            //     class: class_
-            // })
+            // method: "GET"
+            method: "POST",
+            body: JSON.stringify({
+                user_id: "d14637",
+                details: details,
+                amount: amount,
+                category: category,
+                class: class_
+            }),
+            headers: {
+                'Content-Type': "application/json"
+            }
         })
         const data = await response.json()
 
@@ -44,22 +48,22 @@ export default function Insert_trans() {
 
                 <span className='flex flex-row space-x-2 align-middle justify-center mx-1'>
                     <h4 className='flex items-center text-lg text-center'>Details</h4>
-                    <input type="text" className='border border-black rounded-sm pl-2'/>
+                    <input type="text" onChange={(e) => setDetails(e.target.value)} className='border border-black rounded-sm pl-2'/>
                 </span>
                
                 <span className='flex flex-row space-x-2 mx-1'>
                     <h4 className='flex items-center  text-lg'>Amount</h4>
-                    <input type="number" className='border border-black rounded-sm pl-2 w-3/4'/>
+                    <input type="number" onChange={(e) => setAmount(e.target.value)} className='border border-black rounded-sm pl-2 w-3/4'/>
                 </span>
                
                 <span className='flex flex-row space-x-2 mx-1 '>
                     <h4 className='flex items-center  text-lg'>Category</h4>
-                    <input type="text" className='border border-black rounded-sm pl-2  w-2/4'/>
+                    <input type="text" onChange={(e) => setCategory(e.target.value)} className='border border-black rounded-sm pl-2  w-2/4'/>
                 </span>
                
                 <span className='flex flex-row space-x-2 mx-1'>
                     <h4 className='flex items-center  text-lg'>Class</h4>
-                    <input type="text" className='border border-black rounded-sm pl-2  w-3/4'/>
+                    <input type="text" onChange={(e) => setClass_(e.target.value)} className='border border-black rounded-sm pl-2  w-3/4'/>
                 </span>
                
                 <span className='flex flex-row space-x-2 mx-1'>
@@ -74,6 +78,11 @@ export default function Insert_trans() {
 
             <section id="button" className='flex justify-center p-2'>
                 <button onClick={submitTransaction} className='py-2 px-4 bg-blue-600 rounded-sm text-white'>Add Transaction</button>
+            </section>
+
+
+            <section id="Display-Transactions">
+
             </section>
             
         </main>
