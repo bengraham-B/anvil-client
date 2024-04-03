@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -15,8 +15,9 @@ export default function Insert_trans() {
     const [category, setCategory] = useState()
     const [class_, setClass_] = useState() //^ class has an underscore due it it being  reserved word in JS.
 
+    const [success, setSuccess] = useState("")
+
     const submitTransaction = async () => {
-        console.log(process.env.REACT_APP_SERVER_URL)
         const response = await fetch(`http://127.0.0.1:5000/insert`, {
             // method: "GET"
             method: "POST",
@@ -33,8 +34,34 @@ export default function Insert_trans() {
         })
         const data = await response.json()
 
+        if (response.ok){
+            setSuccess("Transaction Saved")
+        }
+
         console.log(data)
     }
+
+    const getTransactions = async () => {
+        const response = await fetch("http://127.0.0.1:5000/get_transactions", {
+            method: "POST",
+            body: JSON.stringify("d14637"),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        const data = await response.json()
+        console.log(data.records)
+
+        const records = data.records
+
+        for(let i = 0; i < records.length; i++){
+            console.log(records[i].id)
+        }
+    }
+
+    useEffect(() => {
+        getTransactions()
+    },[])
 
     return (
         <main className='flex w-full justify-center align-middle flex-col px-4 my-4 space-y-4'>
@@ -76,12 +103,31 @@ export default function Insert_trans() {
 
 
 
-            <section id="button" className='flex justify-center p-2'>
-                <button onClick={submitTransaction} className='py-2 px-4 bg-blue-600 rounded-sm text-white'>Add Transaction</button>
+            <section id="button" className='flex justify-center p-2 flex-col'>
+                <div className='flex justify-center'>
+                    <button onClick={submitTransaction} className='py-2 px-4 bg-blue-600 rounded-sm text-white'>Add Transaction</button>
+                </div>
+                <div className='flex justify-center p-2'>
+                    <div>
+                        <div className='flex justify-center py-2 px-4 bg-green-300 rounded-md'>
+                            <p className='text-green-600  '>{success}</p>
+                        </div>
+                    </div>
+                </div>
+                
             </section>
 
 
-            <section id="Display-Transactions">
+            <section id="Display-Transactions" className='pt-2'>
+                <div id="display-transactions-header">
+                    <h1 className="text-4xl text-blue-600 text-center">Transactions</h1>
+                </div>
+
+                <div>
+                    {
+
+                    }
+                </div>
 
             </section>
             
