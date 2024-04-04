@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 //^ Components
-import Transactions from './Transactions';
+import Transaction from './transactionsComp/Transaction';
 
 
 export default function Insert_trans() {
@@ -15,11 +15,12 @@ export default function Insert_trans() {
     const [category, setCategory] = useState()
     const [class_, setClass_] = useState() //^ class has an underscore due it it being  reserved word in JS.
 
-    const [success, setSuccess] = useState("")
+    const [success, setSuccess] = useState()
+
+    const [getAllTransactions, setGetAllTransactions] = useState([])
 
     const submitTransaction = async () => {
         const response = await fetch(`http://127.0.0.1:5000/insert`, {
-            // method: "GET"
             method: "POST",
             body: JSON.stringify({
                 user_id: "d14637",
@@ -35,7 +36,7 @@ export default function Insert_trans() {
         const data = await response.json()
 
         if (response.ok){
-            setSuccess("Transaction Saved")
+            setSuccess(<p className='text-green-600'>{success}</p>)
         }
 
         console.log(data)
@@ -57,11 +58,17 @@ export default function Insert_trans() {
         for(let i = 0; i < records.length; i++){
             console.log(records[i].id)
         }
+
+        setGetAllTransactions(records)
     }
 
     useEffect(() => {
         getTransactions()
     },[])
+    
+    useEffect(() => {
+        getTransactions()
+    },[submitTransaction])
 
     return (
         <main className='flex w-full justify-center align-middle flex-col px-4 my-4 space-y-4'>
@@ -109,8 +116,8 @@ export default function Insert_trans() {
                 </div>
                 <div className='flex justify-center p-2'>
                     <div>
-                        <div className='flex justify-center py-2 px-4 bg-green-300 rounded-md'>
-                            <p className='text-green-600  '>{success}</p>
+                        <div className='flex justify-center py-2 px-4 rounded-md'>
+                           {success ? <p className='text-green-600'>{success}</p> : <p></p>}
                         </div>
                     </div>
                 </div>
@@ -118,14 +125,32 @@ export default function Insert_trans() {
             </section>
 
 
-            <section id="Display-Transactions" className='pt-2'>
+            <section id="Display-Transactions" className='pt-4'>
                 <div id="display-transactions-header">
                     <h1 className="text-4xl text-blue-600 text-center">Transactions</h1>
                 </div>
 
                 <div>
-                    {
 
+                <div className='flex px-4 py-2 my-2'>
+                    <p className='w-1/4 text-blue-600 text-xl text-center'>Details</p>
+                    <p className='w-1/4 text-blue-600 text-xl text-center'>Amount</p>
+                    <p className='w-1/4 text-blue-600 text-xl text-center'>Category</p>
+                    <p className='w-1/4 text-blue-600 text-xl text-center'>Class</p>
+                    <p className='w-1/4 text-blue-600 text-xl text-center'>Date</p>
+			    </div>
+                    {
+                        getAllTransactions ? getAllTransactions.map(
+                            (transaction) => (
+                                <Transaction 
+                                    details={transaction.details} 
+                                    amount={transaction.amount}
+                                    category={transaction.category}
+                                    class={transaction.class}
+                                    date={transaction.date}
+                                />
+                            )
+                            ) : <p>No Transactions... yet :)</p>
                     }
                 </div>
 
