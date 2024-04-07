@@ -7,7 +7,11 @@ dotenv.config();
 import Transaction from './transactionsComp/Transaction';
 
 
-export default function Insert_trans() {
+// FFunctions
+import { saveCategory } from './saveCategory';
+
+
+export default async function Insert_trans() {
 
     //~ State Variables regarding submitting to Server
     const [details, setDetails] = useState()
@@ -16,6 +20,7 @@ export default function Insert_trans() {
     const [class_, setClass_] = useState() //^ class has an underscore due it it being  reserved word in JS.
 
     const [success, setSuccess] = useState()
+    const [categories, setCategories] = useState([]) //^ This stores the categories from the sever and categories added by the user from the drop down.
 
     const [getAllTransactions, setGetAllTransactions] = useState([])
 
@@ -38,8 +43,6 @@ export default function Insert_trans() {
         if (response.ok){
             setSuccess(<p className='text-green-600'>{success}</p>)
         }
-
-        console.log(data)
     }
 
     const getTransactions = async () => {
@@ -51,24 +54,30 @@ export default function Insert_trans() {
             }
         })
         const data = await response.json()
-        console.log(data.records)
 
         const records = data.records
 
-        for(let i = 0; i < records.length; i++){
-            console.log(records[i].id)
-        }
-
         setGetAllTransactions(records)
+    }
+
+    const handleDropDown = async (event) => {
+        if (event.target.value == "button"){
+           const newCategory = prompt("Enter a new Category")
+
+           //^ Make API cal to save the category 
+           const res = await saveCategory("res")
+           console.log("----------", res)
+           
+        }
     }
 
     useEffect(() => {
         getTransactions()
     },[])
     
-    useEffect(() => {
-        getTransactions()
-    },[submitTransaction])
+    // useEffect(() => {
+    //     getTransactions()
+    // },[submitTransaction])
 
     return (
         <main className='flex w-full justify-center align-middle flex-col px-4 my-4 space-y-4'>
@@ -92,7 +101,12 @@ export default function Insert_trans() {
                
                 <span className='flex flex-row space-x-2 mx-1 '>
                     <h4 className='flex items-center  text-lg'>Category</h4>
-                    <input type="text" onChange={(e) => setCategory(e.target.value)} className='border border-black rounded-sm pl-2  w-2/4'/>
+                    {/* <input type="text" onChange={(e) => setCategory(e.target.value)} className='border border-black rounded-sm pl-2  w-2/4'/> */}
+                    <select name="" id="" onChange={handleDropDown}>
+                        <option value="one">one</option>
+                        <option value="two">two</option>
+                        <option value="button">button</option>
+                    </select>
                 </span>
                
                 <span className='flex flex-row space-x-2 mx-1'>
@@ -131,14 +145,13 @@ export default function Insert_trans() {
                 </div>
 
                 <div>
-
-                <div className='flex px-4 py-2 my-2'>
-                    <p className='w-1/4 text-blue-600 text-xl text-center'>Details</p>
-                    <p className='w-1/4 text-blue-600 text-xl text-center'>Amount</p>
-                    <p className='w-1/4 text-blue-600 text-xl text-center'>Category</p>
-                    <p className='w-1/4 text-blue-600 text-xl text-center'>Class</p>
-                    <p className='w-1/4 text-blue-600 text-xl text-center'>Date</p>
-			    </div>
+                    <div className='flex px-4 py-2 my-2'>
+                        <p className='w-1/4 text-blue-600 text-xl text-center'>Details</p>
+                        <p className='w-1/4 text-blue-600 text-xl text-center'>Amount</p>
+                        <p className='w-1/4 text-blue-600 text-xl text-center'>Category</p>
+                        <p className='w-1/4 text-blue-600 text-xl text-center'>Class</p>
+                        <p className='w-1/4 text-blue-600 text-xl text-center'>Date</p>
+                    </div>
                     {
                         getAllTransactions ? getAllTransactions.map(
                             (transaction) => (
