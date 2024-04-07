@@ -33,8 +33,8 @@ export default function Transactions() {
 	  
 	}, [])
     return (
-        <section className='p-6'>
-
+        <section className='p-6 bg-gray-600'>
+ 
 			<div className='flex justify-center my-4'>
 				<h1 className='text-3xl text-blue-600'>Transaction History</h1>
 			</div>
