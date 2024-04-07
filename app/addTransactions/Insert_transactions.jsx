@@ -6,12 +6,10 @@ dotenv.config();
 //^ Components
 import Transaction from './transactionsComp/Transaction';
 
-
-// FFunctions
+//^ Functions 
 import { saveCategory } from './saveCategory';
 
-
-export default async function Insert_trans() {
+export default function Insert_trans() {
 
     //~ State Variables regarding submitting to Server
     const [details, setDetails] = useState()
@@ -24,8 +22,8 @@ export default async function Insert_trans() {
 
     const [getAllTransactions, setGetAllTransactions] = useState([])
 
-    const submitTransaction = async () => {
-        const response = await fetch(`http://127.0.0.1:5000/insert`, {
+    function submitTransaction (){
+        fetch(`http://127.0.0.1:5000/insert`, {
             method: "POST",
             body: JSON.stringify({
                 user_id: "d14637",
@@ -37,42 +35,73 @@ export default async function Insert_trans() {
             headers: {
                 'Content-Type': "application/json"
             }
+        }).then((response) => {
+            if (response.ok){
+                setSuccess("Successful then")
+            }
+        }).catch((error) => {
+            setSuccess("Error in then")
         })
-        const data = await response.json()
-
-        if (response.ok){
-            setSuccess(<p className='text-green-600'>{success}</p>)
-        }
     }
 
-    const getTransactions = async () => {
-        const response = await fetch("http://127.0.0.1:5000/get_transactions", {
+    function getTransactions (){
+        fetch("http://127.0.0.1:5000/get_transactions", {
             method: "POST",
             body: JSON.stringify("d14637"),
             headers: {
                 "Content-Type": "application/json"
             }
+        }).then((response) => response.json()).then((data) => {
+            const records = data.records
+
+            setGetAllTransactions(records)
+
+        }).catch((error) => {
+            setSuccess("Error Getting All transactions")
         })
+    }
+
+    const getCategories = async () => {
+        const response = await fetch(`http://127.0.0.1:5000/get_categories`, {
+            method: "POST",
+            body: JSON.stringify({user_id: "d123A_"}),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+
         const data = await response.json()
-
-        const records = data.records
-
-        setGetAllTransactions(records)
+        console.log(data.categories)
+        setCategories(data.categories)
     }
 
     const handleDropDown = async (event) => {
+        console.log(categories)
         if (event.target.value == "button"){
            const newCategory = prompt("Enter a new Category")
 
            //^ Make API cal to save the category 
-           const res = await saveCategory("res")
-           console.log("----------", res)
+           const res = await fetch(`http://127.0.0.1:5000/save_category`, {
+            method: "POST",
+            body: JSON.stringify({user_id: "d123A_", name: newCategory}),
+            headers: {
+                "Content-Type": "application/json"
+            }
+           })
            
+           const data = await res.json()
+
+           
+        }
+
+        else {
+            setCategory(event.target.value)
         }
     }
 
     useEffect(() => {
         getTransactions()
+        getCategories()
     },[])
     
     // useEffect(() => {
@@ -104,7 +133,11 @@ export default async function Insert_trans() {
                     {/* <input type="text" onChange={(e) => setCategory(e.target.value)} className='border border-black rounded-sm pl-2  w-2/4'/> */}
                     <select name="" id="" onChange={handleDropDown}>
                         <option value="one">one</option>
-                        <option value="two">two</option>
+                        {
+                            categories && categories.map((cat) => (
+                                <option key={cat.id} value={cat.name}>{cat.name}</option>
+                            ))
+                        }
                         <option value="button">button</option>
                     </select>
                 </span>
@@ -156,6 +189,7 @@ export default async function Insert_trans() {
                         getAllTransactions ? getAllTransactions.map(
                             (transaction) => (
                                 <Transaction 
+                                    key={transaction.id}
                                     details={transaction.details} 
                                     amount={transaction.amount}
                                     category={transaction.category}
