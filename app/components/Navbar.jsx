@@ -7,10 +7,10 @@ export default function Navbar() {
             <span className=' xsm:text-lg xsm:px-2 xsm:py-1 xsm:mx-2 px-4 py-2 bg-blue-600 rounded-md text-white text-xl'>
                 <Link href="/addTransactions" className='xsm:text-lg'>Add Transaction</Link>
             </span>
-            <span className='xsm:text-lg xsm:px-2 xsm:py-1 xsm:mx-2 px-4 py-2 bg-blue-600 rounded-md text-white text-xl'>
+            <span className='xsm:hidden md:inline  px-4 py-2 bg-blue-600 rounded-md text-white text-xl'>
                 <Link href="/transactions" className='xsm:text-lg'>Transactions</Link>
             </span>
-            <span className='xsm:text-lg xsm:px-2 xsm:py-1 xsm:mx-2 xsm:my-2 px-4 py-2 bg-blue-600 rounded-md text-white text-xl'>
+            <span className='xsm:hidden md:inline px-4 py-2 bg-blue-600 rounded-md text-white text-xl'>
                 <Link href="/transactions" className='xsm:text-lg'>CSV</Link>
             </span>
         </nav>
