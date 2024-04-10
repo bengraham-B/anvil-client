@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 
 export default function Header() {
-	const [menu, showMenu] = useState(false)
+
     return (
         <main className='flex align-middle bg-white text-black justify-between py-4 px-4'>
 
