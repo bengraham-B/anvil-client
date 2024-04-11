@@ -20,7 +20,7 @@ export default function Header() {
 					<Link href="/" className='flex align-middle text-center justify-center text-lg border border-black rounded-md px-4 py-2 hover:bg-black hover:text-white'>Add Transaction</Link>
 				</span>
 				<span className='flex align-middle justify-center text-center xsm:hidden md:inline'>
-					<Link href="/" className='flex align-middle text-center justify-center text-lg border border-black rounded-md px-4 py-2 hover:bg-black hover:text-white'>History</Link>
+					<Link href="/Transactions" className='flex align-middle text-center justify-center text-lg border border-black rounded-md px-4 py-2 hover:bg-black hover:text-white'>Transactions</Link>
 				</span>
 				<span className='flex align-middle justify-center text-center xsm:hidden md:inline'>
 					<Link href="/" className='flex align-middle text-center justify-center text-lg border border-black rounded-md px-4 py-2 hover:bg-black hover:text-white'>CSV</Link>

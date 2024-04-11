@@ -7,7 +7,7 @@ export default function page() {
     return (
         <div className='p-2 space-y-6 py-8'>
             <Menu link={"/AddTransaction"} root={"Add Transaction"}/>
-            <Menu link={"/History"} root={"History"}/>
+            <Menu link={"/Transactions"} root={"Transactions"}/>
             <Menu link={"/csv"} root={"CSV"}/>
             <Menu link={"/"} root={"Home"}/>
         </div>
