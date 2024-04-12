@@ -1,6 +1,7 @@
 import React from 'react';
 
-import TransactionSM from './TransactionSM';
+import TransactionTable from './TransactionTable'; //~ For large screens - Table of transactions
+import TransactionComp from './TransactionComp'; //~ For small screens - Component of Each transaction
 
 export default function Page() {
     return (
@@ -9,8 +10,9 @@ export default function Page() {
                 <h1 className='text-4xl'>Transactions</h1>
             </section>
 
-			<TransactionSM/>
-			
+			<TransactionTable/>
+			<TransactionComp/>
+
         </main>
     );
 }
