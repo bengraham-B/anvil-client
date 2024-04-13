@@ -7,8 +7,12 @@ import AddTransactionPhone from './AddTransactionsPhone' //~ This is the view fo
 export default function page() {
   return (
     <div>
-        <AddTransactionPC/>
-        {/* <AddTransactionPhone/> */}
+		<div className='xsm:hidden lg:block'>
+        	<AddTransactionPC/>
+		</div>
+		<div className='xsm:block lg:hidden'>
+        	<AddTransactionPhone/>
+		</div>
     </div>
   )
 }

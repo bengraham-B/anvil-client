@@ -13,37 +13,18 @@ interface TransactionProps {
 	details: string,
 	category: string,
 	class_: "income" | "expense",
-	date: Date
+	date: string
 }
 
-export default function TransactionComp(props: TransactionProps){
-
-	const getTransactions = async() => {
-		const response = await fetch(`http://127.0.0.1:5000/get_transactions`, {
-			method: "POST",
-			body: JSON.stringify({
-				user_id: "FR-234"
-			}),
-			headers: {
-				"Content-Type": "application/json"
-			}
-		})
-		const data = await response.json()
-		console.log(data)
-	}
-
-	useEffect(() => {
-		getTransactions()
-		console.log("TransactionComp")
-	},[])
+export default function TransactionCompPC(props: TransactionProps){
 
 	return (
-		<main className='flex justify-center l:hidden border border-white rounded-md p-2 mx-4'>
+		<main className='flex justify-center lg:block border border-white rounded-md p-2'>
 			<div className='flex flex-col w-full px-4  space-y-4'>
 
 				<span id="details-container" className="flex flex-row justify-between space-y-4">
 					<div className='flex flex-col space-y-2'>
-						<div id="details" className='text-blue-600 text-2xl'>{props.date.toDateString()}</div>
+						<div id="details" className='text-blue-600 text-2xl'>{props.date}</div>
 
 						<div id="details" className='flex flex-col borer border-whie rounded-md p- pr-2'>
 							<h3 className="bg-white text-black px-2 py-1 rounded-md w-1/2">Category</h3>
