@@ -17,7 +17,7 @@ export default function Header() {
 
 			<div id="right" className='flex flex-row justify-around space-x-6 px-4'>
 				<span className='flex align-middle justify-center text-center xsm:hidden md:inline'>
-					<Link href="/" className='flex align-middle text-center justify-center text-lg border border-black rounded-md px-4 py-2 hover:bg-black hover:text-white'>Add Transaction</Link>
+					<Link href="/AddTransaction" className='flex align-middle text-center justify-center text-lg border border-black rounded-md px-4 py-2 hover:bg-black hover:text-white'>Add Transaction</Link>
 				</span>
 				<span className='flex align-middle justify-center text-center xsm:hidden md:inline'>
 					<Link href="/Transactions" className='flex align-middle text-center justify-center text-lg border border-black rounded-md px-4 py-2 hover:bg-black hover:text-white'>Transactions</Link>
