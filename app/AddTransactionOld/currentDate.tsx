@@ -8,7 +8,7 @@ export function currentDate (){
     const returnDate = `${year} ${month} ${day}`
     const ISO_DATE = new Date().toISOString()
     console.log(ISO_DATE)
-    console.log(returnDate)
+    // console.log(returnDate)
 
     return ISO_DATE
 }

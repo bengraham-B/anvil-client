@@ -9,6 +9,7 @@ This component used for:
 
 
 interface TransactionProps {
+	key: string,
 	amount: number,
 	details: string,
 	category: string,
@@ -19,7 +20,7 @@ interface TransactionProps {
 export default function TransactionCompPC(props: TransactionProps){
 
 	return (
-		<main className='flex justify-center lg:block border border-white rounded-md p-2'>
+		<main key={props.key} className='flex justify-center lg:block border border-white rounded-md p-2'>
 			<div className='flex flex-col w-full px-4  space-y-4'>
 
 				<span id="details-container" className="flex flex-row justify-between space-y-4">
