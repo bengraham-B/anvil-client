@@ -1,6 +1,9 @@
 "use client"
 import React, {useState} from 'react'
 
+//^ Import Functions
+import TransactionComp from '../Components/TransactionComp'
+
 export default function page() {
 	const [incomeClass, setIncomeClass] = useState<boolean>(false)
 	const [expenseClass, setExpenseClass] = useState<boolean>(false)
@@ -60,7 +63,7 @@ export default function page() {
 
 			<div id="inputs" className='bg-ed-400 xsm:w-full lg:w-1/2 space-y-4'>
 				<div id="header" className='flex justify-center font-light text-2xl'>
-					<h1>Transaction Details</h1>
+					<h1 className='text-3xl border border-white rounded-md px-4 py-2'>Transaction Details</h1>
 				</div>
 				<div className="space-y-1 p-4">
 
@@ -105,9 +108,19 @@ export default function page() {
 			</div>
 
 
-			<div id="transactions" className='bg-blue-400 xsm:w-full lg:w-1/2'>
-				<div id="header" className='flex justify-center font-light text-2xl'>
-					<h1>Transactions</h1>
+			<div id="transactions" className='xsm:w-full lg:w-1/2'>
+				<div id="header" className='flex flex-col justify-center font-light text-2xl'>
+
+					<section>
+						<div id="header" className='flex justify-center font-light text-2xl'>
+							<h1 className='text-3xl border border-white rounded-md px-4 py-2'>Transactions</h1>
+						</div>
+					</section>
+
+					<section className='p-4'>
+						<TransactionComp/>
+					</section>
+
 				</div>
 			</div>
 		</section>
