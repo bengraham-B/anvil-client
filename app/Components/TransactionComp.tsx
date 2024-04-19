@@ -6,7 +6,7 @@ export default function TransactionComp() {
         
            <section className='flex flex-row justify-between'>
 				<span>
-					<h1 className='text-orange-600 md:text-3xl xsm:text-xl'>Sweets</h1>
+					<h1 className='text-orange-600 md:text-3xl xsm:text-2xl'>Sweets</h1>
 				</span>
 				<span>
 					<h1 className='md:text-3xl xsm:text-xl'>24 June 2023</h1>

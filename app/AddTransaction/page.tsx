@@ -79,16 +79,26 @@ export default function page() {
 						<h3 className='text-2xl'>Details</h3>
 						<input type="text"  className='w-full text-lg text-black pl-2 p-1 outline-none rounded-md' onChange={(e) => setDetails(e.target.value)}/>
 					</div>
-					
-					<div id="category" className='space-y-1 py-1'>
-						<h3 className='text-2xl'>Category</h3>
-						<select name="Sundry" id="" className='flex w-full text-xl bg-white text-black py-2' onChange={saveCategory}>
-							<option value="Sundry" className='text-lg py-2'>Sundry</option>
-							<option value="Change Category" className='text-lg py-2'>Change Category</option>
-						</select>
+
+					<div className='flex flex-row md:justify-between md:flex-row xsm:flex-col space-y-2'>
+
+						<div id="category" className='space-y-1 py-1'>
+							<h3 className='text-2xl'>Category</h3>
+							<select name="Sundry" id="" className='flex w-full text-xl bg-white text-black py-2' onChange={saveCategory}>
+								<option value="Sundry" className='text-lg py-2'>Sundry</option>
+								<option value="Change Category" className='text-lg py-2'>Change Category</option>
+							</select>
+						</div>
+
+						<div id="category" className='space-y-1 py-1'>
+							<h3 className='text-2xl'>New Category</h3>
+							<input name="new Category" type="text" className='flex w-full text-lg text-black pl-2 p-1 outline-none rounded-md'/>
+						</div>
+
 					</div>
 					
-					<div id="class" className='flex justify-around py-1'>
+					
+					<div id="class" className='flex justify-around py-1 mt-4'>
 						<button onClick={() => classFunc("income")}  className={`border border-green-600  py-2 px-4 rounded-md text-xl ${incomeClass ? "bg-green-600 text-white":" text-green-600"}`}>Income</button>
 						<button onClick={() => classFunc("expense")} className={`border border-red-600 py-2 px-4 rounded-md text-xl ${expenseClass ? "bg-red-600 border-green-600 outline-none text-white":"border-red-600 text-red-600 "}`}>Expense</button>
 					</div>
