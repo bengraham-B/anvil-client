@@ -6,7 +6,10 @@ interface TransactionProps {
 	details: string,
 	category: string,
 	class_: "I" | "E",
-	date: string 
+	date: string,
+	day: number,
+	month: string,
+	year: number
 } 
 
 export default function TransactionComp(props: TransactionProps) {
@@ -19,7 +22,8 @@ export default function TransactionComp(props: TransactionProps) {
 					<h1 className='text-orange-600 md:text-3xl xsm:text-2xl'>{props.category}</h1>
 				</span>
 				<span>
-					<h1 className='md:text-3xl xsm:text-xl'>{props.date}</h1>
+					{/* <h1 className='md:text-3xl xsm:text-xl'>{props.date}</h1> */}
+					<h1 className='md:text-3xl xsm:text-xl'>{props.day} {props.month} {props.year}</h1>
 				</span>
 		   </section>
 

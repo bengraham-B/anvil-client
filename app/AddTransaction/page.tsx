@@ -17,19 +17,24 @@ export default function page() {
 
 	const [records, setRecords] = useState<any[]>([]) //^ This stores the recods from the API call
 
+	//^ Filter
+	const [filterMonth, setFilterMonth] = useState<string>("")
+	const [filterDay, setFilterDay] = useState<string>("")
+	const [filterYear, setFilterYear] = useState<string>("2024")
+
 	const classFunc = (classType:string) => {
 		console.log(classType)
 
 		if (classType === "income"){
 			setIncomeClass(true)
 			setExpenseClass(false)
-			setClassValue("income")
+			setClassValue("I")
 		}
 
 		else {
 			setIncomeClass(false)
 			setExpenseClass(true)
-			setClassValue("expense")
+			setClassValue("E")
 		}
 	}
 
@@ -55,6 +60,11 @@ export default function page() {
 
 	function saveCategory(categoryValue:React.ChangeEvent<HTMLSelectElement>){
 		setCategory(categoryValue.target.value)
+	}
+
+	//^ =========== Filter functions ===========
+	function saveFilterMonth(month:React.ChangeEvent<HTMLSelectElement>){
+		setFilterMonth(month.target.value)
 	}
 
 	const getTransactions = async () => {
@@ -164,17 +174,47 @@ export default function page() {
 						</div>
 					</section>
 
-					<section className='overflow-auto h-screen space-y-2 p-4'>
-						{records && records.map((T) => (
-							<TransactionComp	
-								key={T.id}
-								amount={T.amount}
-								details={T.details}
-								category={T.category}
-								class_={T.class}
-								date={T.date}
-							/>
-						))}
+					<section className='border border-white rounded-md flex mx-4 justify-around my-2 py-2'>
+						<input type="text" className="w-1/4 text-black pl-1 rounded-md" placeholder='Day' onChange={(e) => setFilterDay(e.target.value)}/>
+						<select name="month" id="" className='text-black' onChange={saveFilterMonth}>
+							<option value="Jan">January</option>
+							<option value="Feb">February</option>
+							<option value="Mar">March</option>
+							<option value="Apr">April</option>
+							<option value="May">May</option>
+							<option value="June">June</option>
+							<option value="July">July</option>
+							<option value="Aug">August</option>
+						</select>
+						<input type="text" className="w-1/4  text-black pl-1 rounded-md" placeholder='2024' onChange={(e) => setFilterYear(e.target.value)}/>
+					</section>
+
+					<section className='overflow-auto h-screen space-y-2 p-4 my-1'>
+						{records && records.filter((F) => {
+								if (filterDay === null || filterDay === ""){
+									return F.month === filterMonth && F.year === filterYear
+								}
+
+								else {
+									return F.month === filterMonth && F.day === filterDay && F.year === filterYear
+								}
+								// F.month === filterMonth
+							}
+								).map((T) => (
+									<TransactionComp	
+										key={T.id}
+										amount={T.amount}
+										details={T.details}
+										category={T.category}
+										class_={T.class}
+										date={T.date}
+										day={T.day}
+										month={T.month}
+										year={T.year}
+									/>
+								)
+							)
+						}
 						
 					</section>
 
