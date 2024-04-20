@@ -5,14 +5,14 @@ interface TransactionProps {
 	amount: number,
 	details: string,
 	category: string,
-	class_: "income" | "expense",
+	class_: "I" | "E",
 	date: string 
 } 
 
 export default function TransactionComp(props: TransactionProps) {
 
     return (
-        <main key={props.key} className='flex justify-center flex-col space-y-4 border border-green-600 rounded-md p-6'>
+        <main key={props.key} className={`flex justify-center flex-col space-y-4 border ${props.class_ === "E" ? 'border-red-600': 'border-green-600'} rounded-md p-6`}>
         
            <section className='flex flex-row justify-between'>
 				<span>
@@ -35,7 +35,15 @@ export default function TransactionComp(props: TransactionProps) {
 				</div>
 
 				<div id="amount" className='flex justify-end'>
-					<h1 className='text-green-600 text-3xl'>+ {props.amount}</h1>
+					{/* If the object is an Expense it will make the text red */}
+					{
+						props.class_ === "E" ?  
+							<h1 className='text-red-600 text-3xl'>- R{props.amount}</h1> 
+							:
+							<h1 className='text-green-600 text-3xl'>+ R{props.amount}</h1>
+					
+					}
+					{/* // <h1 className='text-green-600 text-3xl'>+ {props.amount}</h1> */}
 				</div>
 		   </section>
 
