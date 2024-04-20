@@ -13,7 +13,7 @@ interface TransactionProps {
 	details: string,
 	category: string,
 	class_: "income" | "expense",
-	date: Date
+	date: string
 }
 
 export default function TransactionComp(props: TransactionProps){
@@ -43,7 +43,7 @@ export default function TransactionComp(props: TransactionProps){
 
 				<span id="details-container" className="flex flex-row justify-between space-y-4">
 					<div className='flex flex-col space-y-2'>
-						<div id="details" className='text-blue-600 text-2xl'>{props.date.toDateString()}</div>
+						<div id="details" className='text-blue-600 text-2xl'>{props.date}</div>
 
 						<div id="details" className='flex flex-col borer border-whie rounded-md p- pr-2'>
 							<h3 className="bg-white text-black px-2 py-1 rounded-md w-1/2">Category</h3>

@@ -11,7 +11,7 @@ export default function Page() {
             </section>
 
 			<TransactionTable/>
-			{/* <TransactionComp/> */}
+			<TransactionComp amount={0} details={''} category={''} class_={'income'} date={"undefined"} />
 
         </main>
     );
