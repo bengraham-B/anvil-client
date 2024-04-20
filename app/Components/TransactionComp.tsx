@@ -1,15 +1,25 @@
 import React from 'react';
 
-export default function TransactionComp() {
+interface TransactionProps {
+	key: string,
+	amount: number,
+	details: string,
+	category: string,
+	class_: "income" | "expense",
+	date: string 
+} 
+
+export default function TransactionComp(props: TransactionProps) {
+
     return (
-        <main className='flex justify-center flex-col space-y-4 border border-green-600 rounded-md p-6'>
+        <main key={props.key} className='flex justify-center flex-col space-y-4 border border-green-600 rounded-md p-6'>
         
            <section className='flex flex-row justify-between'>
 				<span>
-					<h1 className='text-orange-600 md:text-3xl xsm:text-2xl'>Sweets</h1>
+					<h1 className='text-orange-600 md:text-3xl xsm:text-2xl'>{props.category}</h1>
 				</span>
 				<span>
-					<h1 className='md:text-3xl xsm:text-xl'>24 June 2023</h1>
+					<h1 className='md:text-3xl xsm:text-xl'>{props.date}</h1>
 				</span>
 		   </section>
 
@@ -20,12 +30,12 @@ export default function TransactionComp() {
 						<h1 className='text-black'>Details</h1>
 					</div>
 					<div>
-						<p className='flex flex-wrap text-wrap p-1'>Cookies and Coffe</p>
+						<p className='flex flex-wrap text-wrap p-1'>{props.details}</p>
 					</div>
 				</div>
 
 				<div id="amount" className='flex justify-end'>
-					<h1 className='text-green-600 text-3xl'>+ R234</h1>
+					<h1 className='text-green-600 text-3xl'>+ {props.amount}</h1>
 				</div>
 		   </section>
 

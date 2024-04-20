@@ -1,10 +1,11 @@
 "use client"
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 
 //^ Import Functions
 import TransactionComp from '../Components/TransactionComp'
 
 export default function page() {
+	const [error, setError] = useState<boolean>(false)
 	const [incomeClass, setIncomeClass] = useState<boolean>(false)
 	const [expenseClass, setExpenseClass] = useState<boolean>(false)
 	const [classValue, setClassValue] = useState<string>("")
@@ -13,6 +14,8 @@ export default function page() {
 	const [details, setDetails] = useState<string>("")
 	const [category, setCategory] = useState<string>("")
 	const [date, setDate] = useState<string>("")
+
+	const [records, setRecords] = useState<any[]>([]) //^ This stores the recods from the API call
 
 	const classFunc = (classType:string) => {
 		console.log(classType)
@@ -31,9 +34,10 @@ export default function page() {
 	}
 
 	const saveTransaction = async () => {
-		const response = fetch(`http://127.0.0.1:5000/save_transaction`, {
+		const response = await fetch(`http://127.0.0.1:5000/save_transaction`, {
 			method: "POST",
 			body: JSON.stringify({
+				"user_id": "bn-33",
 				"details": details,
 				"amount": amount,
 				"category": category,
@@ -45,13 +49,45 @@ export default function page() {
 			}
 		})
 
-		const data = (await response).json()
+		const data = await response.json()
 		console.log(data)
 	}
 
 	function saveCategory(categoryValue:React.ChangeEvent<HTMLSelectElement>){
 		setCategory(categoryValue.target.value)
 	}
+
+	const getTransactions = async () => {
+		const response = await fetch(`http://127.0.0.1:5000/get_transactions`, {
+			method: "POST",
+			body: JSON.stringify({
+				user_id: "bn-33"
+			}),
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
+
+		if (response.ok){
+			console.log("Silly")
+			const data = await response.json()
+			setRecords(data.records)
+			setError(false)
+
+		}
+
+		else {
+			setError(true)
+		}
+
+	}
+
+	useEffect(() => {
+		getTransactions()
+	
+	  
+	}, [])
+	
 
   return (
     <main>
@@ -128,8 +164,18 @@ export default function page() {
 						</div>
 					</section>
 
-					<section className='p-4'>
-						<TransactionComp/>
+					<section className='overflow-auto h-screen space-y-2 p-4'>
+						{records && records.map((T) => (
+							<TransactionComp	
+								key={T.id}
+								amount={T.amount}
+								details={T.details}
+								category={T.category}
+								class_={T.class}
+								date={T.date}
+							/>
+						))}
+						
 					</section>
 
 				</div>
