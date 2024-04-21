@@ -1,75 +1,63 @@
 "use client"
-import React, { useEffect } from 'react'
-
-/*
-This component used for:
-	- Phone screens.
-	- Add Transactions, where it will be shown on the right of the input field.
-*/
-
+import React, {useEffect, useState} from 'react';
 
 interface TransactionProps {
+	key: string,
 	amount: number,
 	details: string,
 	category: string,
-	class_: "income" | "expense",
-	date: string
-}
+	class_: "I" | "E",
+	date: string,
+	day: number,
+	month: string,
+	year: number
+} 
 
-export default function TransactionComp(props: TransactionProps){
+export default function TransactionComp(props: TransactionProps) {
 
-	const getTransactions = async() => {
-		const response = await fetch(`http://127.0.0.1:5000/get_transactions`, {
-			method: "POST",
-			body: JSON.stringify({
-				user_id: "FR-234"
-			}),
-			headers: {
-				"Content-Type": "application/json"
-			}
-		})
-		const data = await response.json()
-		console.log(data)
-	}
-
-	useEffect(() => {
-		getTransactions()
-		console.log("TransactionComp")
-	},[])
-
-	return (
-		<main className='flex justify-center l:hidden border border-white rounded-md p-2 mx-4'>
-			<div className='flex flex-col w-full px-4  space-y-4'>
-
-				<span id="details-container" className="flex flex-row justify-between space-y-4">
-					<div className='flex flex-col space-y-2'>
-						<div id="details" className='text-blue-600 text-2xl'>{props.date}</div>
-
-						<div id="details" className='flex flex-col borer border-whie rounded-md p- pr-2'>
-							<h3 className="bg-white text-black px-2 py-1 rounded-md w-1/2">Category</h3>
-							<p className='pl-2'>{props.category}</p>
-						</div>
-
-						<div id="details" className='flex flex-col rounded-md pr-2 '>
-							<h3 className="bg-white text-black px-2 py-1 rounded-md w-1/2">Details</h3>
-							<p className='pl-2'>{props.details}</p>
-						</div>
-
-					</div>
-
-					<div className='flex items-center justify-end'>
-						<div id="details" className='flex justify-center xsm:text-xl'>R{props.amount}</div>
-					</div>
+    return (
+        <main key={props.key} className={`flex justify-center flex-col space-y-4 border ${props.class_ === "E" ? 'border-red-600': 'border-green-600'} rounded-md p-6`}>
+        
+           <section className='flex flex-row justify-between'>
+				<span>
+					<h1 className='text-orange-600 md:text-3xl xsm:text-2xl'>{props.category}</h1>
 				</span>
-
-				
-
-				<span id="buttons-container" className="flex flex-row justify-around">
-					<button className='bg-blue-600 px-3 py-1 rounded-md text-xl w-2/6'>Edit</button>
-					<button className="bg-red-600 px-3 py-1 rounded-md text-xl w-2/6 text-center">Delete</button>
+				<span>
+					<h1 className='md:text-3xl xsm:text-xl'>{props.day} {props.month} {props.year}</h1>
 				</span>
+		   </section>
 
-			</div>
-		</main>
-	)
+		   <section className='flex-row justify-around space-y-2'>
+
+				<div id="details" className='flex-col'>
+					<div className='flex bg-white rounded-md p-1'>
+						<h1 className='text-black'>Details</h1>
+					</div>
+					<div>
+						<p className='flex flex-wrap text-wrap p-1'>{props.details}</p>
+					</div>
+				</div>
+
+				<div id="amount" className='flex justify-end'>
+					{/* If the object is an Expense it will make the text red */}
+					{
+						props.class_ === "E" ?  
+							<h1 className='text-red-600 text-3xl'>- R{props.amount}</h1> 
+							:
+							<h1 className='text-green-600 text-3xl'>+ R{props.amount}</h1>
+					
+					}
+					{/* // <h1 className='text-green-600 text-3xl'>+ {props.amount}</h1> */}
+				</div>
+		   </section>
+
+		   <section className='flex justify-around'>
+				<button className='bg-blue-600 rounded-md px-7 py-2 outline-none'>Edit</button>
+				<button className='bg-red-600 rounded-md px-4 py-2 outline-none'>Delete</button>
+		   </section>
+
+
+
+        </main>
+    );
 }
