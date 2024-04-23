@@ -13,6 +13,7 @@ export default function page() {
 	const [amount, setAmount] = useState<string>("")
 	const [details, setDetails] = useState<string>("")
 	const [category, setCategory] = useState<string>("")
+	const [newCategory, setNewCategory] = useState<string>("")
 	const [date, setDate] = useState<string>("")
 
 	const [records, setRecords] = useState<any[]>([]) //^ This stores the recods from the API call
@@ -39,13 +40,22 @@ export default function page() {
 	}
 
 	const saveTransaction = async () => {
+
+		//^ This if-block handles if a new or existing category 
+		let saveCategory:string = "";
+		console.log(category, newCategory)
+		if (category === "" || category === "Sundry" && newCategory !== ""){
+			saveCategory = newCategory
+		} else {
+			saveCategory = category
+		}
 		const response = await fetch(`http://127.0.0.1:5000/save_transaction`, {
 			method: "POST",
 			body: JSON.stringify({
 				"user_id": "bn-33",
 				"details": details,
 				"amount": amount,
-				"category": category,
+				"category": saveCategory,
 				"class": classValue,
 				"date": date,
 			}),
@@ -57,6 +67,21 @@ export default function page() {
 		const data = await response.json()
 		console.log(data)
 	}
+
+	// const newCategory = async () => {
+	// 	const response = await fetch(`http://127.0.0.1:5000/save_category`, {
+	// 		method: "POST",
+	// 		body: JSON.stringify({
+	// 			user_id: "bn-33",
+	// 			name: category //^ This is the name of the new category which is goining to be saved.
+	// 		}),
+	// 		headers: {
+	// 			"Content-Type": "application/json"
+	// 		}
+	// 	})
+	// 	const data = await response.json()
+	// 	console.log(data)
+	// }
 
 	function saveCategory(categoryValue:React.ChangeEvent<HTMLSelectElement>){
 		setCategory(categoryValue.target.value)
@@ -138,7 +163,7 @@ export default function page() {
 
 						<div id="category" className='space-y-1 py-1'>
 							<h3 className='text-2xl'>New Category</h3>
-							<input name="new Category" type="text" className='flex w-full text-lg text-black pl-2 p-1 outline-none rounded-md'/>
+							<input name="new Category" type="text" className='flex w-full text-lg text-black pl-2 p-1 outline-none rounded-md' onChange={(e) => setNewCategory(e.target.value)}/>
 						</div>
 
 					</div>

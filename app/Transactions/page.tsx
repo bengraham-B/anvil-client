@@ -28,6 +28,19 @@ export default function Page() {
         setRecords(data.records)
 	}
 
+    const getCategories = async () => {
+        const response = await fetch(`http://127.0.0.1:5000/get_categories`, {
+            method: "POST",
+            body: JSON.stringify({
+                user_id: "bn-33"
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        const data = await response.json()
+    }
+
 
 	// function saveCategory(categoryValue:React.ChangeEvent<HTMLSelectElement>){
 	// 	setCategory(categoryValue.target.value)
@@ -61,6 +74,9 @@ export default function Page() {
 							<option value="July">July</option>
 							<option value="Aug">August</option>
 						</select>
+                        <select name="category" id="category">
+                            <option value=""></option>
+                        </select>
 						<input type="text" className="w-1/4  text-black pl-1 rounded-md" placeholder='2024' onChange={(e) => setFilterYear(e.target.value)}/>
 					</section>
 
@@ -68,7 +84,7 @@ export default function Page() {
 
 
 
-            <div className='p-4 space-y-2'>
+            <div className='p-4 space-y-2 xsm:block md:hidden'>
 
 
                 {records && records.map((T) => (
