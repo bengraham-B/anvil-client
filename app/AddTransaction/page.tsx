@@ -45,10 +45,11 @@ export default function page() {
 		let saveCategory:string = "";
 		console.log(category, newCategory)
 		if (category === "" || category === "Sundry" && newCategory !== ""){
-			saveCategory = newCategory
+			saveCategory = newCategory //^ Saves a new category the user inputed
 		} else {
-			saveCategory = category
+			saveCategory = category //^ this saves an existing category
 		}
+		
 		const response = await fetch(`http://127.0.0.1:5000/save_transaction`, {
 			method: "POST",
 			body: JSON.stringify({
@@ -67,21 +68,6 @@ export default function page() {
 		const data = await response.json()
 		console.log(data)
 	}
-
-	// const newCategory = async () => {
-	// 	const response = await fetch(`http://127.0.0.1:5000/save_category`, {
-	// 		method: "POST",
-	// 		body: JSON.stringify({
-	// 			user_id: "bn-33",
-	// 			name: category //^ This is the name of the new category which is goining to be saved.
-	// 		}),
-	// 		headers: {
-	// 			"Content-Type": "application/json"
-	// 		}
-	// 	})
-	// 	const data = await response.json()
-	// 	console.log(data)
-	// }
 
 	function saveCategory(categoryValue:React.ChangeEvent<HTMLSelectElement>){
 		setCategory(categoryValue.target.value)
@@ -140,31 +126,40 @@ export default function page() {
 
 					<div id="amount" className='space-y-1 py-1'>
 						<h3 className='text-2xl'>Amount</h3>
-						<div className='bg-white flex w-full align-middle rounded-md'>
-							<h3 className='flex pl-1 py-2 text-black align-middle text-lg text-center'>R</h3>
-							<input type="number" placeholder="0.00" className='w-full text-lg text-black pl-1 p-1 outline-none rounded-md' onChange={(e) => setAmount(e.target.value)}/>
+						<div className='bg-base-100 flex w-full align-middle rounded-md'>
+							{/* bg-base-100 is the grey for the daisy input bg */}
+							<h3 className='flex pl-1 py-2 text-white align-middle text-xl text-center'>R</h3>
+							<input type="number" placeholder="0.00" className='input w-full text-lg text-white pl-1 p-1 outline-none rounded-md' onChange={(e) => setAmount(e.target.value)}/>
 						</div>
 					</div>
 
 					<div id="Details" className='space-y-1 py-1'>
 						<h3 className='text-2xl'>Details</h3>
-						<input type="text"  className='w-full text-lg text-black pl-2 p-1 outline-none rounded-md' onChange={(e) => setDetails(e.target.value)}/>
+						<input type="text"  className='input w-full text-lg text-white pl-2 p-1 outline-none rounded-md' onChange={(e) => setDetails(e.target.value)}/>
 					</div>
 
-					<div className='flex flex-row md:justify-between md:flex-row xsm:flex-col space-y-2'>
+					<div className='w-full md:flex-row xsm:flex-col space-y-2 '>
 
 						<div id="category" className='space-y-1 py-1'>
 							<h3 className='text-2xl'>Category</h3>
-							<select name="Sundry" id="" className='flex w-full text-xl bg-white text-black py-2' onChange={saveCategory}>
+
+							<details className="dropdown w-full p-2">
+								<summary className='m-1 btn flex w-full'>Category</summary>
+								<ul className='shadow p-2 menu dropdown-content z-[1] bg-base-100 rounded-box w-full tex-xl hover:text-orange-600'>
+									<li><p className="text-lg">Silly</p></li>
+								</ul>
+							</details>
+
+							{/* <select name="Sundry" id="" className='input  bg-base-100 flex w-full text-xl text-white py-2' onChange={saveCategory}>
 								<option value="Sundry" className='text-lg py-2'>Sundry</option>
 								<option value="Change Category" className='text-lg py-2'>Change Category</option>
-							</select>
+							</select> */}
 						</div>
 
-						<div id="category" className='space-y-1 py-1'>
+						{/* <div id="category" className='space-y-1 py-1'>
 							<h3 className='text-2xl'>New Category</h3>
-							<input name="new Category" type="text" className='flex w-full text-lg text-black pl-2 p-1 outline-none rounded-md' onChange={(e) => setNewCategory(e.target.value)}/>
-						</div>
+							<input name="new Category" type="text" className='input flex w-full text-lg text-white pl-2 p-1 outline-none rounded-md' onChange={(e) => setNewCategory(e.target.value)}/>
+						</div> */}
 
 					</div>
 					
@@ -176,7 +171,7 @@ export default function page() {
 
 					<div id="Date" className='space-y-2 py-1'>
 						<h3 className='text-2xl'>Date</h3>
-						<input type="date"  className='w-full text-lg text-black pl-2 p-1 outline-none rounded-md' onChange={(e) => setDate(e.target.value)}/>
+						<input type="date"  className='input w-full text-lg text-white pl-2 p-1 outline-none rounded-md' onChange={(e) => setDate(e.target.value)}/>
 					</div>
 
 					<div className='flex w-full justify-center py-1'>
@@ -190,6 +185,8 @@ export default function page() {
 			
 			<hr className='text-white my-2 mb-4 xsm:block md:hidden'/>
 
+			{/* =========================================  Transactions	=========================================  */}
+
 			<div id="transactions" className='xsm:w-full lg:w-1/2'>
 				<div id="header" className='flex flex-col justify-center font-light text-2xl'>
 
@@ -199,9 +196,33 @@ export default function page() {
 						</div>
 					</section>
 
-					<section className='border border-white rounded-md flex mx-4 justify-around my-2 py-2'>
-						<input type="text" className="w-1/4 text-black pl-1 rounded-md" placeholder='Day' onChange={(e) => setFilterDay(e.target.value)}/>
-						<select name="month" id="" className='text-black' onChange={saveFilterMonth}>
+					<section className='brder border-hite rounded-md flex mx-4 justify-around my-2 py-2'>
+						<input type="text" className="input w-1/4 text-white pl-1 rounded-md" placeholder='Day' onChange={(e) => setFilterDay(e.target.value)}/>
+						
+						<details className='dropdown'>
+							<summary className='m-1 btn'>Month</summary>
+							<ul >
+								<li><p className='text-lg'>goose</p></li>
+								<li>
+									<button className="text-lg" onClick={() => document.getElementById("modal_1").showModal()}>Button</button>
+									<dialog id="modal_1" className='modal'>
+										<div className="modal-box">
+											<h3>Add Transaction</h3>
+											<p className="py-4">Press esp to escap...</p>
+											<input type="text" className='input pl-1 text-white rounded-md border border-white'/>
+											<button>Save Transaction</button>
+											<div className="modal-action">
+												<form method="dialog">
+													<button className='btn'>Close</button>
+												</form>
+											</div>
+										</div>
+									</dialog>
+								</li>
+							</ul>
+						</details>
+						
+						{/* <select name="month" id="" className='input text-white' onChange={saveFilterMonth}>
 							<option value="Jan">January</option>
 							<option value="Feb">February</option>
 							<option value="Mar">March</option>
@@ -210,8 +231,8 @@ export default function page() {
 							<option value="June">June</option>
 							<option value="July">July</option>
 							<option value="Aug">August</option>
-						</select>
-						<input type="text" className="w-1/4  text-black pl-1 rounded-md" placeholder='2024' onChange={(e) => setFilterYear(e.target.value)}/>
+						</select> */}
+						<input type="text" className="input w-1/4  text-white pl-1 rounded-md" placeholder='2024' onChange={(e) => setFilterYear(e.target.value)}/>
 					</section>
 
 					<section className='overflow-auto h-screen space-y-2 p-4 my-1'>
