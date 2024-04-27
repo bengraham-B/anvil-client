@@ -19,7 +19,7 @@ export default function page() {
 	const [records, setRecords] = useState<any[]>([]) //^ This stores the recods from the API call
 
 	//^ Filter
-	const [filterMonth, setFilterMonth] = useState<string>("")
+	const [filterMonth, setFilterMonth] = useState<string>("Apr")
 	const [filterDay, setFilterDay] = useState<string>("")
 	const [filterYear, setFilterYear] = useState<string>("2024")
 
@@ -69,13 +69,13 @@ export default function page() {
 		console.log(data)
 	}
 
-	function saveCategory(categoryValue:React.ChangeEvent<HTMLSelectElement>){
-		setCategory(categoryValue.target.value)
+	function saveCategory(categoryValue:React.ChangeEvent<HTMLParagraphElement>){
+		setCategory(categoryValue.target.innerHTML)
 	}
 
 	//^ =========== Filter functions ===========
-	function saveFilterMonth(month:React.ChangeEvent<HTMLSelectElement>){
-		setFilterMonth(month.target.value)
+	function saveFilterMonth(month:React.ChangeEvent<HTMLParagraphElement>){
+		setFilterMonth(month.target.innerHTML)
 	}
 
 	const getTransactions = async () => {
@@ -144,22 +144,21 @@ export default function page() {
 							<h3 className='text-2xl'>Category</h3>
 
 							<details className="dropdown w-full p-2">
-								<summary className='m-1 btn flex w-full'>Category</summary>
-								<ul className='shadow p-2 menu dropdown-content z-[1] bg-base-100 rounded-box w-full tex-xl hover:text-orange-600'>
-									<li><p className="text-lg">Silly</p></li>
+								<summary className=' text-xl font-light m-1 btn flex w-full'>{category !== "" ? category : "Please Choose a Category"}</summary>
+								<ul className='shadow p-2 menu dropdown-content z-[1] bg-base-100 rounded-box w-full tex-xl '>
+
+									{
+										records && records.map((T) => (
+											<li><p className="text-lg hover:text-accent" onClick={() => saveCategory(T.category)}>{T.category}</p></li>
+										))
+									}
+
+									{/* <li><p className="text-lg hover:text-accent" onClick={saveCategory}>Silly</p></li> */}
+									<li><input type="text" placeholder="new Category" className='flex border border-accent text-xl' onChange={(e) => setCategory(e.target.value)}/></li>
 								</ul>
 							</details>
 
-							{/* <select name="Sundry" id="" className='input  bg-base-100 flex w-full text-xl text-white py-2' onChange={saveCategory}>
-								<option value="Sundry" className='text-lg py-2'>Sundry</option>
-								<option value="Change Category" className='text-lg py-2'>Change Category</option>
-							</select> */}
 						</div>
-
-						{/* <div id="category" className='space-y-1 py-1'>
-							<h3 className='text-2xl'>New Category</h3>
-							<input name="new Category" type="text" className='input flex w-full text-lg text-white pl-2 p-1 outline-none rounded-md' onChange={(e) => setNewCategory(e.target.value)}/>
-						</div> */}
 
 					</div>
 					
@@ -185,7 +184,9 @@ export default function page() {
 			
 			<hr className='text-white my-2 mb-4 xsm:block md:hidden'/>
 
+			{/* =================================================================================================  */}
 			{/* =========================================  Transactions	=========================================  */}
+			{/* =================================================================================================  */}
 
 			<div id="transactions" className='xsm:w-full lg:w-1/2'>
 				<div id="header" className='flex flex-col justify-center font-light text-2xl'>
@@ -200,38 +201,25 @@ export default function page() {
 						<input type="text" className="input w-1/4 text-white pl-1 rounded-md" placeholder='Day' onChange={(e) => setFilterDay(e.target.value)}/>
 						
 						<details className='dropdown'>
-							<summary className='m-1 btn'>Month</summary>
-							<ul >
-								<li><p className='text-lg'>goose</p></li>
-								<li>
-									<button className="text-lg" onClick={() => document.getElementById("modal_1").showModal()}>Button</button>
-									<dialog id="modal_1" className='modal'>
-										<div className="modal-box">
-											<h3>Add Transaction</h3>
-											<p className="py-4">Press esp to escap...</p>
-											<input type="text" className='input pl-1 text-white rounded-md border border-white'/>
-											<button>Save Transaction</button>
-											<div className="modal-action">
-												<form method="dialog">
-													<button className='btn'>Close</button>
-												</form>
-											</div>
-										</div>
-									</dialog>
-								</li>
+							<summary className='text-xl font-light m-1 btn flex w-full'>{filterMonth !== "" ? filterMonth: "Month"}</summary>
+							<ul className="shadow p-2 menu dropdown-content z-[1] bg-base-100 rounded-box text-xl">
+								<li><p className='text-lg' onClick={() => setFilterMonth("Jan")}>January</p></li>
+								<li><p className='text-lg' onClick={() => setFilterMonth("Feb")}>February</p></li>
+								<li><p className='text-lg' onClick={() => setFilterMonth("March")}>March</p></li>
+								<li><p className='text-lg' onClick={() => setFilterMonth("Apr")}>April</p></li>
+								<li><p className='text-lg' onClick={() => setFilterMonth("May")}>May</p></li>
+								<li><p className='text-lg' onClick={() => setFilterMonth("June")}>June</p></li>
+								<li><p className='text-lg' onClick={() => setFilterMonth("July")}>July</p></li>
+								<li><p className='text-lg' onClick={() => setFilterMonth("Aug")}>August</p></li>
+								<li><p className='text-lg' onClick={() => setFilterMonth("Sept")}>Sept</p></li>
+								<li><p className='text-lg' onClick={() => setFilterMonth("Oct")}>October</p></li>
+								<li><p className='text-lg' onClick={() => setFilterMonth("Nov")}>November</p></li>
+								<li><p className='text-lg' onClick={() => setFilterMonth("Dec")}>December</p></li>
+								<li></li>
 							</ul>
 						</details>
 						
-						{/* <select name="month" id="" className='input text-white' onChange={saveFilterMonth}>
-							<option value="Jan">January</option>
-							<option value="Feb">February</option>
-							<option value="Mar">March</option>
-							<option value="Apr">April</option>
-							<option value="May">May</option>
-							<option value="June">June</option>
-							<option value="July">July</option>
-							<option value="Aug">August</option>
-						</select> */}
+	
 						<input type="text" className="input w-1/4  text-white pl-1 rounded-md" placeholder='2024' onChange={(e) => setFilterYear(e.target.value)}/>
 					</section>
 
