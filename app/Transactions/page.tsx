@@ -1,110 +1,62 @@
 "use client"
-import React, {useEffect, useState} from 'react';
+import React from 'react'
 
-import TransactionTable from './TransactionTable'; //~ For large screens - Table of transactions
-import TransactionComp from './TransactionComp'; //~ For small screens - Component of Each transaction
+export default function Transactions() {
+  return (
+    <main>
+        <section id="header" className='flex justify-center align-middle py-2'>
+            <h1 className='text-3xl font-light'>Transactions</h1>
+        </section>
 
-export default function Page() {
-    const [records, setRecords] = useState<any[]>()
+        <section id="filter" className='flex flex-row justify-around py-2'>
 
-    //^ Filter
-	const [filterMonth, setFilterMonth] = useState<string>("")
-	const [filterDay, setFilterDay] = useState<string>("")
-	const [filterYear, setFilterYear] = useState<string>("2024")
-
-	const getTransactions = async() => {
-		const response = await fetch(`http://127.0.0.1:5000/get_transactions`, {
-			method: "POST",
-			body: JSON.stringify({
-				user_id: "bn-33"
-			}),
-			headers: {
-				"Content-Type": "application/json"
-			}
-		})
-		const data = await response.json()
-		console.log(data)
-        console.log("records in trnasactions page")
-        setRecords(data.records)
-	}
-
-    const getCategories = async () => {
-        const response = await fetch(`http://127.0.0.1:5000/get_categories`, {
-            method: "POST",
-            body: JSON.stringify({
-                user_id: "bn-33"
-            }),
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-        const data = await response.json()
-    }
-
-
-	// function saveCategory(categoryValue:React.ChangeEvent<HTMLSelectElement>){
-	// 	setCategory(categoryValue.target.value)
-	// }
-
-	//^ =========== Filter functions ===========
-	function saveFilterMonth(month:React.ChangeEvent<HTMLSelectElement>){
-		setFilterMonth(month.target.value)
-	}
-
-	useEffect(() => {
-		getTransactions()
-		console.log("TransactionComp")
-	},[])
-
-    return (
-        <main>
-            <section className='flex justify-center py-4'>
-                <h1 className='text-4xl'>Transactions</h1>
-            </section>
-
-            <section className='border border-white rounded-md flex mx-4 justify-around my-2 py-2'>
-						<input type="text" className=" input w-1/4 text-black pl-1 rounded-md" placeholder='Day' onChange={(e) => setFilterDay(e.target.value)}/>
-						<select name="month" id="" className='input text-black' onChange={saveFilterMonth}>
-							<option value="Jan">January</option>
-							<option value="Feb">February</option>
-							<option value="Mar">March</option>
-							<option value="Apr">April</option>
-							<option value="May">May</option>
-							<option value="June">June</option>
-							<option value="July">July</option>
-							<option value="Aug">August</option>
-						</select>
-                        <select name="category" id="category">
-                            <option value=""></option>
-                        </select>
-						<input type="text" className="input w-1/4  text-black pl-1 rounded-md" placeholder='2024' onChange={(e) => setFilterYear(e.target.value)}/>
-					</section>
-
-			<TransactionTable/>
-
-
-
-            <div className='p-4 space-y-2 xsm:block md:hidden'>
-
-
-                {records && records.map((T) => (
-                    <TransactionComp	
-                        key={T.id}
-                        amount={T.amount}
-                        details={T.details}
-                        category={T.category}
-                        class_={T.class}
-                        date={T.date}
-                        day={T.day}
-                        month={T.month}
-                        year={T.year}
-                    />)
-                )
-                }
-
+            <div id="day-filter">
+                <input type="text" placeholder='24' className='input' />
             </div>
-            
 
-        </main>
-    );
+            <div id="month-filter">
+                <input type="text" placeholder='June' className='input' />
+            </div>
+
+            <div id="year-filter">
+                <input type="text" placeholder='2023' className='input' />
+            </div>
+
+            <div id="category-filter">
+                <input type="text" placeholder='Select Catgeory' className='input' />
+            </div>
+
+        </section>
+
+        <section id="table">
+            <div className="overflow-x-auto">
+                <table className="table table-xs">
+
+                    <thead>
+                        <tr className='text-white font-light text-lg text-center'>
+                            <td>Nr</td>
+                            <td>Details</td>
+                            <td>Category</td>
+                            <td>Amount</td>
+                            <td>Date</td>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr className='text-blue-500 font-light text-2xl text-center'>
+                            <td>1</td>
+                            <td className='text-lg'>Bought sweets at work</td>
+                            <td>Sweets</td>
+                            <td>R34</td>
+                            <td>23 June 2023</td>
+                        </tr>
+                    </tbody>
+                    
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+  )
 }
