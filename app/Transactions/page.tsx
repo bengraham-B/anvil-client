@@ -63,8 +63,8 @@ export default function Page() {
             </section>
 
             <section className='border border-white rounded-md flex mx-4 justify-around my-2 py-2'>
-						<input type="text" className="w-1/4 text-black pl-1 rounded-md" placeholder='Day' onChange={(e) => setFilterDay(e.target.value)}/>
-						<select name="month" id="" className='text-black' onChange={saveFilterMonth}>
+						<input type="text" className=" input w-1/4 text-black pl-1 rounded-md" placeholder='Day' onChange={(e) => setFilterDay(e.target.value)}/>
+						<select name="month" id="" className='input text-black' onChange={saveFilterMonth}>
 							<option value="Jan">January</option>
 							<option value="Feb">February</option>
 							<option value="Mar">March</option>
@@ -77,7 +77,7 @@ export default function Page() {
                         <select name="category" id="category">
                             <option value=""></option>
                         </select>
-						<input type="text" className="w-1/4  text-black pl-1 rounded-md" placeholder='2024' onChange={(e) => setFilterYear(e.target.value)}/>
+						<input type="text" className="input w-1/4  text-black pl-1 rounded-md" placeholder='2024' onChange={(e) => setFilterYear(e.target.value)}/>
 					</section>
 
 			<TransactionTable/>

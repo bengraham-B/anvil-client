@@ -116,10 +116,23 @@ export default function page() {
             <h1 className='flex justify-center text-white text-3xl my-2 pt-2'>Add Transaction</h1>
         </section>
 
-		<section className='flex xsm:flex-col lg:flex-row w-full p-3'>
+
+					
+
+		<section className='flex xsm:flex-col lg:flex-row w-full p-3 z-0'>
+
 
 			<div id="inputs" className='bg-ed-400 xsm:w-full lg:w-1/2 space-y-4'>
-				<div id="header" className='flex justify-center font-light text-2xl'>
+						{/* ====================== Toast ====================== */}
+		{/* <div className="taost toast-top toast-start z-100">
+				<div className='alert alert-success'>
+					<span>
+						Transaction arrived successfully
+					</span>
+
+			</div>
+		</div> */}
+				<div id="header" className='flex justify-center font-light text-2xl z-0'>
 					<h1 className='text-black bg-white text-3xl border border-white rounded-md px-4 py-2'>Transaction Details</h1>
 				</div>
 				<div className="space-y-1 p-4">
@@ -152,8 +165,6 @@ export default function page() {
 											<li><p className="text-lg hover:text-accent" onClick={() => saveCategory(T.category)}>{T.category}</p></li>
 										))
 									}
-
-									{/* <li><p className="text-lg hover:text-accent" onClick={saveCategory}>Silly</p></li> */}
 									<li><input type="text" placeholder="new Category" className='flex border border-accent text-xl' onChange={(e) => setCategory(e.target.value)}/></li>
 								</ul>
 							</details>
@@ -175,6 +186,16 @@ export default function page() {
 
 					<div className='flex w-full justify-center py-1'>
 						<button className="py-2 px-4 text-2xl border border-white rounded-md hover:bg-white hover:text-black" onClick={saveTransaction}>Submit</button>
+					</div>
+
+					{/* ====================== Toast ====================== */}
+					<div className="taost toast-top toast-start">
+						<div className='alert alert-success'>
+							<span>
+								Transaction arrived successfully
+							</span>
+
+						</div>
 					</div>
 					
 
