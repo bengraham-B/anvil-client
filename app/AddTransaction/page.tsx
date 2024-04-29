@@ -40,6 +40,7 @@ export default function page() {
 	}
 
 	const saveTransaction = async () => {
+		console.log("Date - add transactions", date)
 
 		//^ This if-block handles if a new or existing category 
 		let saveCategory:string = "";
@@ -123,15 +124,6 @@ export default function page() {
 
 
 			<div id="inputs" className='bg-ed-400 xsm:w-full lg:w-1/2 space-y-4'>
-						{/* ====================== Toast ====================== */}
-		{/* <div className="taost toast-top toast-start z-100">
-				<div className='alert alert-success'>
-					<span>
-						Transaction arrived successfully
-					</span>
-
-			</div>
-		</div> */}
 				<div id="header" className='flex justify-center font-light text-2xl z-0'>
 					<h1 className='text-black bg-white text-3xl border border-white rounded-md px-4 py-2'>Transaction Details</h1>
 				</div>
