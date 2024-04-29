@@ -71,7 +71,9 @@ export default function page() {
 	}
 
 	function saveCategory(categoryValue:React.ChangeEvent<HTMLParagraphElement>){
-		setCategory(categoryValue.target.innerHTML)
+		console.log(categoryValue)
+		const selectedCategory = categoryValue.toString()
+		setCategory(selectedCategory)
 	}
 
 	//^ =========== Filter functions ===========
@@ -153,8 +155,8 @@ export default function page() {
 								<ul className='shadow p-2 menu dropdown-content z-[1] bg-base-100 rounded-box w-full tex-xl '>
 
 									{
-										records && records.map((T) => (
-											<li><p className="text-lg hover:text-accent" onClick={() => saveCategory(T.category)}>{T.category}</p></li>
+										records && records.map((C) => (
+											<li><p className="text-lg hover:text-accent" onClick={() => saveCategory(C.category)}>{C.category}</p></li>
 										))
 									}
 									<li><input type="text" placeholder="new Category" className='flex border border-accent text-xl' onChange={(e) => setCategory(e.target.value)}/></li>

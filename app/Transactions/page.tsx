@@ -14,16 +14,16 @@ export default function Transactions() {
  
     
 
-    const saveEdit = async (e:React.FormEvent, transaction_id:string, details:string, amount:string, category:string,  _class:string, date:Date) => {
+    const saveEdit = async (e:React.FormEvent, transaction_id:string, details:string, amount:string, category:string,  _class:string, date:string) => {
         console.log("<><><><><><><>", date)
         e.preventDefault() //^ This prevents the modal from closes when the users saves their updated values, will only save if the server returns a success.
         let editDetails:string = details
-        let editAmount = amount 
-        let editcategory = category 
-        let editClass = _class
-        let editDate:string = "date"
+        let editAmount:string = amount 
+        let editcategory:string = category 
+        let editClass:string = _class
+        // let editDate:string = date
 
-        console.log("Date: ", date, editDate)
+        // console.log("Date: ", date, editDate)
 
         if (detailsState !== ""){
             editDetails = detailsState
@@ -41,19 +41,7 @@ export default function Transactions() {
             editClass = _classState
         }
 
-        if (dateState !== "" || dateState === null){
-            editDate = dateState
-        }
-
-
-
-        console.log(editDetails)
-        console.log(editAmount)
-        console.log(editcategory)
-        console.log(editClass)
-        console.log(editDate)
-
-
+        let editDate = dateState ? dateState : date;
 
         try {
             const response = await fetch(`http://127.0.0.1:5000/edit_transaction`, {
@@ -65,7 +53,7 @@ export default function Transactions() {
                     category: editcategory,
                     amount: editAmount,
                     class: editClass,
-                    date: editDate,
+                    date: dateState,
                 }),
                 headers: {
                     "Content-Type": "application/json"
@@ -172,13 +160,13 @@ export default function Transactions() {
                     <tbody>
                             {/* Maps overs the users transactions and adds them to the table */}
                             {
-                                transactions && transactions.map((T, i) => (
-                                    <tr key={T.id} className='text-blue-500 font-light text-2xl text-center'>
+                                transactions && transactions.filter((F) => F.category === "goose").map((T, i) => (
+                                    <tr key={T.id} className='text-white font-light text-2xl text-center'>
                                         <td className='text-lg'>{i+1}</td>
                                         <td className='text-lg'>{T.details}</td>
                                         <td className='text-lg'>{T.category}</td>
                                         <td className='text-lg'>R{T.amount}</td>
-                                        <td className='text-lg'>{T.day} {T.month} {T.year}</td>
+                                        <td className='text-lg'>{T.date}</td>
 
                                         <td className='text-lg'>
                                             <button onClick={() => {
@@ -221,7 +209,7 @@ export default function Transactions() {
                                                     <div className='modal-action'>
                                                         <form method="dialog" className='flex w-full justify-around'>
                                                                 <button className='btn btn-error'>Close</button>
-                                                                <button onClick={(e) => saveEdit(e, T.id, T.details, T.amount, T.category, T.class, T.date.toISOString())} className='btn btn-accent'>Save</button>
+                                                                <button onClick={(e) => saveEdit(e, T.id, T.details, T.amount, T.category, T.class, T.date)} className='btn btn-accent'>Save</button>
                                                         </form>
                                                     </div>
                                                 </div>
