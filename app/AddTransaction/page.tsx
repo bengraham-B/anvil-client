@@ -4,6 +4,9 @@ import React, {useState, useEffect} from 'react'
 //^ Import Functions
 import TransactionComp from '../Components/TransactionComp'
 
+//^ Importing Functions
+import dateFormat from '../functions/dateFormat'
+
 export default function page() {
 	const [error, setError] = useState<boolean>(false)
 	const [incomeClass, setIncomeClass] = useState<boolean>(false)
@@ -50,6 +53,9 @@ export default function page() {
 		} else {
 			saveCategory = category //^ this saves an existing category
 		}
+
+		const formatedDate = dateFormat(date)
+		console.log(formatedDate, "OOOOOOOOOOOOOOOOOOOOOOOOOOOO")
 		
 		const response = await fetch(`http://127.0.0.1:5000/save_transaction`, {
 			method: "POST",
@@ -60,6 +66,10 @@ export default function page() {
 				"category": saveCategory,
 				"class": classValue,
 				"date": date,
+				"day": formatedDate.day,
+				"monthText": formatedDate.monthText,
+				"month": formatedDate.monthNumber,
+				"year": formatedDate.year,
 			}),
 			headers: {
 				"Content-Type": "application/json"
@@ -93,7 +103,6 @@ export default function page() {
 		})
 
 		if (response.ok){
-			console.log("Silly")
 			const data = await response.json()
 			setRecords(data.records)
 			setError(false)
@@ -156,7 +165,9 @@ export default function page() {
 
 									{
 										records && records.map((C) => (
-											<li><p className="text-lg hover:text-accent" onClick={() => saveCategory(C.category)}>{C.category}</p></li>
+											<li key={C.id}>
+												<p className="text-lg hover:text-accent" onClick={() => saveCategory(C.category)}>{C.category}</p>
+											</li>
 										))
 									}
 									<li><input type="text" placeholder="new Category" className='flex border border-accent text-xl' onChange={(e) => setCategory(e.target.value)}/></li>

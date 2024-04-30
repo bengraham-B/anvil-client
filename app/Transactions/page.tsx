@@ -1,6 +1,8 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 
+import dateFormat  from '../functions/dateFormat'
+
 export default function Transactions() {
     //^ Setting state variables 
     const [transactions, setTransactions] = useState<any[]>([]) //^ This state array will store the transactions recieved from the server 
@@ -15,7 +17,6 @@ export default function Transactions() {
     
 
     const saveEdit = async (e:React.FormEvent, transaction_id:string, details:string, amount:string, category:string,  _class:string, date:string) => {
-        console.log("<><><><><><><>", date)
         e.preventDefault() //^ This prevents the modal from closes when the users saves their updated values, will only save if the server returns a success.
         let editDetails:string = details
         let editAmount:string = amount 
@@ -23,7 +24,7 @@ export default function Transactions() {
         let editClass:string = _class
         // let editDate:string = date
 
-        // console.log("Date: ", date, editDate)
+        console.log("Date: ", date)
 
         if (detailsState !== ""){
             editDetails = detailsState
@@ -43,6 +44,9 @@ export default function Transactions() {
 
         let editDate = dateState ? dateState : date;
 
+        const formatedDate = dateFormat(editDate)
+        console.log(formatedDate)
+
         try {
             const response = await fetch(`http://127.0.0.1:5000/edit_transaction`, {
                 method: "POST",
@@ -53,7 +57,12 @@ export default function Transactions() {
                     category: editcategory,
                     amount: editAmount,
                     class: editClass,
-                    date: dateState,
+                    date: editDate,
+
+                    day: formatedDate.day,
+                    month: formatedDate.monthNumber,
+                    month_text: formatedDate.monthText,
+                    year: formatedDate.year
                 }),
                 headers: {
                     "Content-Type": "application/json"
@@ -160,13 +169,13 @@ export default function Transactions() {
                     <tbody>
                             {/* Maps overs the users transactions and adds them to the table */}
                             {
-                                transactions && transactions.filter((F) => F.category === "goose").map((T, i) => (
+                                transactions && transactions.filter((F) => F.category !== "goose").map((T, i) => (
                                     <tr key={T.id} className='text-white font-light text-2xl text-center'>
                                         <td className='text-lg'>{i+1}</td>
                                         <td className='text-lg'>{T.details}</td>
                                         <td className='text-lg'>{T.category}</td>
                                         <td className='text-lg'>R{T.amount}</td>
-                                        <td className='text-lg'>{T.date}</td>
+                                        <td className='text-lg'>{T.day} {T.month_text} {T.year}</td>
 
                                         <td className='text-lg'>
                                             <button onClick={() => {
