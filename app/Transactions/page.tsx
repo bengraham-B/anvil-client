@@ -13,7 +13,12 @@ export default function Transactions() {
     const [categoryState, setCategory] = useState<string>("")
     const [_classState, setClass] =  useState<string>("")
     const [dateState, setDate] = useState<any>()
- 
+
+    //^ State variables for filters
+    const [categoryFilter, setCategoryFilter] = useState<string>("")
+    const [dayFilter, setDayFilter] = useState<string>("")
+    const [monthFilter, setMonthFilter] = useState<string>("")
+    const [yearFilter, setYearFilter] = useState<string>("")
     
 
     const saveEdit = async (e:React.FormEvent, transaction_id:string, details:string, amount:string, category:string,  _class:string, date:string) => {
@@ -24,7 +29,6 @@ export default function Transactions() {
         let editClass:string = _class
         // let editDate:string = date
 
-        console.log("Date: ", date)
 
         if (detailsState !== ""){
             editDetails = detailsState
@@ -90,7 +94,6 @@ export default function Transactions() {
         }
     }
 
-
     //^ Making API Calls 
     const fetchTransactions = async () => {
         try {
@@ -108,6 +111,8 @@ export default function Transactions() {
     
             if (response.ok){
                 setTransactions(data.records) //^ The records object is the array contain the trnasactions. 
+                console.log(data.records)
+
             }
     
             else {
@@ -117,13 +122,12 @@ export default function Transactions() {
         } catch (error) {
             console.log(error)
         }
-
-
     }
 
     useEffect(() => {
         fetchTransactions()
     },[])
+
   return (
     <main>
         <section id="header" className='flex justify-center align-middle py-2'>
@@ -133,19 +137,19 @@ export default function Transactions() {
         <section id="filter" className='flex flex-row justify-around py-2'>
 
             <div id="day-filter">
-                <input type="text" placeholder='24' className='input' />
+                <input type="text" placeholder='24' className='input' onChange={(e) => setDayFilter(e.target.value)}/>
             </div>
 
             <div id="month-filter">
-                <input type="text" placeholder='June' className='input' />
+                <input type="text" placeholder='June' className='input' onChange={(e) => setMonthFilter(e.target.value)}/>
             </div>
 
             <div id="year-filter">
-                <input type="text" placeholder='2023' className='input' />
+                <input type="text" placeholder='2023' className='input' onChange={(e) => setYearFilter(e.target.value)}/>
             </div>
 
             <div id="category-filter">
-                <input type="text" placeholder='Select Catgeory' className='input' />
+                <input type="text" placeholder='Select Catgeory' className='input' onChange={(e) => setCategoryFilter(e.target.value)}/>
             </div>
 
         </section>
@@ -169,7 +173,14 @@ export default function Transactions() {
                     <tbody>
                             {/* Maps overs the users transactions and adds them to the table */}
                             {
-                                transactions && transactions.filter((F) => F.category !== "goose").map((T, i) => (
+                                transactions && transactions.filter((F) => {
+                                    if (dayFilter || monthFilter){
+                                        return F.day === parseInt(dayFilter) || F.day === "" || F.month_text === monthFilter || F.month_text === "" 
+                                        // || F.month_text === ""
+                                    }
+                                    console.log(">>>", F.day)
+                                    // return F.day === 1 || F.day === null && F.month_text === "Apr" || F.month === ""
+                                }).map((T, i) => (
                                     <tr key={T.id} className='text-white font-light text-2xl text-center'>
                                         <td className='text-lg'>{i+1}</td>
                                         <td className='text-lg'>{T.details}</td>
